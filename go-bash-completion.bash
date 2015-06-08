@@ -5,9 +5,19 @@ complete -f -X '!*.6' 6l
 complete -f -X '!*.5' 5l
 complete -f -X '!*.go' 8g 6g 5g gofmt gccgo
 
+_go_clear_cache() {
+  unset _go_imports
+}
+_go_importpath_cache() {
+   if [ -z "$_go_imports" ]; then
+    _go_imports=$(go list all 2>/dev/null)
+    export _go_imports
+  fi
+}
+
 _go_importpath()
 {
-  echo "$(compgen -W "$(go list all) all std" -- "$1")"
+  echo "$(compgen -W "$_go_imports" -- "$1")"
 }
 
 _go()
@@ -68,12 +78,14 @@ _go()
             case "$found" in
               0)
                 _filedir go
+                _go_importpath_cache
                 COMPREPLY+=(`_go_importpath "$cur"`)
                 ;;
               1)
                 _filedir go
                 ;;
               2)
+                _go_importpath_cache
                 COMPREPLY=(`_go_importpath "$cur"`)
                 ;;
             esac
@@ -85,16 +97,20 @@ _go()
       if [[ "$cur" == -* ]]; then
         COMPREPLY=($(compgen -W "-i -r -n -x" -- "$cur"))
       else
+        _go_importpath_cache
         COMPREPLY=(`_go_importpath "$cur"`)
       fi
       ;;
     'doc')
+      _go_importpath_cache
       COMPREPLY=(`_go_importpath "$cur"`)
       ;;
     'fix')
+      _go_importpath_cache
       COMPREPLY=(`_go_importpath "$cur"`)
       ;;
     'fmt')
+      _go_importpath_cache
       COMPREPLY=(`_go_importpath "$cur"`)
       ;;
     'get')
@@ -105,6 +121,7 @@ _go()
           if [[ "$cur" == -* ]]; then
             COMPREPLY=($(compgen -W "-a -d -fix -n -p -u -v -x" -- "$cur"))
           else
+            _go_importpath_cache
             COMPREPLY=(`_go_importpath "$cur"`)
           fi
           ;;
@@ -131,6 +148,7 @@ _go()
           if [[ "$cur" == -* ]]; then
             COMPREPLY=($(compgen -W "-e -f -json" -- "$cur"))
           else
+            _go_importpath_cache
             COMPREPLY=(`_go_importpath "$cur"`)
           fi
           ;;
@@ -154,6 +172,7 @@ _go()
           if [[ "$cur" == -* ]]; then
             COMPREPLY=($(compgen -W "-c -file -i -p -x" -- "$cur"))
           else
+            _go_importpath_cache
             COMPREPLY=(`_go_importpath "$cur"`)
           fi
           ;;
@@ -227,6 +246,7 @@ _go()
       if [[ "$cur" == -* ]]; then
         :
       else
+        _go_importpath_cache
         COMPREPLY=(`_go_importpath "$cur"`)
       fi
       ;;
