@@ -11,7 +11,10 @@ Initially this bash completion is based on [the one removed from the go reposito
 Output of "go list all std" is stored inside an an environment variable, so it's on a per shell level. Having 
 The `_go_clear_cache` function clears the cache if needed. 
 
-## What are the alternatives?
+## Alternatives 
+
+These are all the current alternatives I've found.
+
 * [deleted from go/misc/bash/go](https://codereview.appspot.com/105470043/patch/40001/50002)
  * What this completion is based on. Has lot's of completion support.
 * [gihub.com/skelterjohn/go-pkg-complete/](https://github.com/skelterjohn/go-pkg-complete/blob/master/go-pkg-complete.bash.inc)
