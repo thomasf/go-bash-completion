@@ -8,10 +8,11 @@ Initially this bash completion is based on [the one removed from the go reposito
 
 ## Cache of go package list
 
-Output of "go list all std" is stored inside an an environment variable, so it's on a per shell level. Having 
-The `_go_clear_cache` function clears the cache if needed. 
+Output of "go list all std" is stored inside an environment variable, so it's
+on a per shell level. Having The `_go_clear_cache` function clears the cache if
+needed.
 
-## Alternatives 
+## Alternatives
 
 These are all the current alternatives I've found.
 
