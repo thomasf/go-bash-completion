@@ -135,6 +135,7 @@ _go()
           if [[ "$cur" == -* ]]; then
             COMPREPLY=($(compgen -W "-a -n -p -v -x" -- "$cur"))
           else
+            _go_importpath_cache
             COMPREPLY=(`_go_importpath "$cur"`)
           fi
           ;;
