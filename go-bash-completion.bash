@@ -30,11 +30,13 @@ _go()
 
   local cmd="${COMP_WORDS[1]}"
 
-  local cmds="build clean doc fix fmt get
+  local cmds="build clean doc env fix fmt get
     install list run test tool version vet"
   local addhelp="gopath importpath remote
     testflag testfunc"
   local other="help"
+  local env_vars="GOARCH GOBIN GOEXE GOHOSTARCH GOHOSTOS GOOS GOPATH GORACE
+    GOROOT GOTOOLDIR GO15VENDOREXPERIMENT CC GOGCCFLAGS CXX CGO_ENABLED"
 
   if [ "$COMP_CWORD" == 1 ]; then
     for opt in $cmds; do
@@ -104,6 +106,9 @@ _go()
     'doc')
       _go_importpath_cache
       COMPREPLY=(`_go_importpath "$cur"`)
+      ;;
+    'env')
+      COMPREPLY=($(compgen -W "$env_vars" -- "$cur"))
       ;;
     'fix')
       _go_importpath_cache
